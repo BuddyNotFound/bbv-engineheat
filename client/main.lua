@@ -3,6 +3,7 @@ Main = {}
 CreateThread(function()
     while true do
         Wait(1500)
+        if not IsPedInAnyVehicle(PlayerPedId(), false) then return end
         Main.Veh = GetVehiclePedIsIn(PlayerPedId(), false)
         Main.EngineTemp = GetVehicleEngineTemperature(Main.Veh)
         Main.VehHealth = GetVehicleEngineHealth(Main.Veh)
