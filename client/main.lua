@@ -3,8 +3,18 @@ Main = {}
 CreateThread(function()
     while true do
         Wait(1500)
-        if not IsPedInAnyVehicle(PlayerPedId(), false) then return end
+        if not IsPedInAnyVehicle(PlayerPedId(), false) then 
+            goto continue
+        end
         Main.Veh = GetVehiclePedIsIn(PlayerPedId(), false)
+        for k,v in pairs(Config.BlacklistedVehicles) do 
+            if GetHashKey(v) == GetEntityModel(Main.Veh) then 
+                if Config.Debug then 
+                    print('blacklisted')
+                end
+                goto continue
+            end
+        end
         Main.EngineTemp = GetVehicleEngineTemperature(Main.Veh)
         Main.VehHealth = GetVehicleEngineHealth(Main.Veh)
         Main.VehSpeed = GetEntitySpeed(Main.Veh) * 3.6
@@ -28,5 +38,6 @@ CreateThread(function()
         if Main.EngineTemp >= Config.ShutdownTemp then 
             SetVehicleEngineOn(Main.Veh, false, true)
         end
+        ::continue::
     end
 end)
